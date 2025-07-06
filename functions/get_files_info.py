@@ -1,6 +1,12 @@
 import os
 
+from google.genai import types
+
+
 MAX_CHARS = 10000
+
+
+
 
 def get_files_info(working_directory, directory=""):
     path = os.path.join(working_directory, directory)
@@ -63,3 +69,51 @@ def write_file(working_directory, file_path, content):
         print(f"Error: IOError: {e}")
     except Exception as e:
         print(f"Error: unkown error: {e}")
+
+
+
+schema_get_files_info = types.FunctionDeclaration(
+    name="get_files_info",
+    description="Lists files in the specified directory along with their sizes, constrained to the working directory.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "directory": types.Schema(
+                type=types.Type.STRING,
+                description="The directory to list files from, relative to the working directory. If not provided, lists files in the working directory itself.",
+            ),
+        },
+    ),
+)
+
+schema_get_file_content = types.FunctionDeclaration(
+    name="get_file_content",
+    description="Prints entire file content as text, up to 10000 characters. If file exceeds character limit, the resulting text will reflect that at the end.",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The relative path from your location to the file you want to execute",
+            ),
+        },
+    ),
+)
+schema_write_file = types.FunctionDeclaration(
+    name="write_file",
+        description="Write file to path, create new if doesn't exist",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="The relative path from your location to the file you want to write",
+            ),
+            "content": types.Schema(
+                type=types.Type.STRING,
+                description="The content which you want to write to the file. It will overwrite current",
+            ),
+        },
+    ),
+)
+

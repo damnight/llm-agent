@@ -1,6 +1,6 @@
 import unittest
 from calculator.pkg import calculator
-from functions.get_files_info import get_file_content, get_files_info
+from functions.get_files_info import get_file_content, get_files_info, write_file
 
 
 class TestFunctions(unittest.TestCase):
@@ -28,21 +28,31 @@ class TestFunctions(unittest.TestCase):
 #       res = get_file_content("calculator", "lorem.txt")
 #       print(res)
 #
+#
+#   def test_successfully_main(self):
+#       res = get_file_content("calculator", "main.py")
+#       print(res)
+#
+#   def test_succesfully_subdir(self):
+#       res = get_file_content("calculator", "pkg/calculator.py")
+#       print(res)
+#
+#   def test_invalid(self):
+#       res = get_file_content("calculator", "/bin/cat")
+#       print(res)
 
-    def test_successfully_main(self):
-        res = get_file_content("calculator", "main.py")
+    def test_write_base_directory(self):
+        res = write_file("calculator", "lorem.txt", "wait, this isn't lorem ipsum")
+        print(res)
+    
+    def test_write_sub_directory(self):
+        res = write_file("calculator", "pkg/morelorem.txt", "lorem ipsum dolor sit amet")
         print(res)
 
-    def test_succesfully_subdir(self):
-        res = get_file_content("calculator", "pkg/calculator.py")
+
+    def test_write_invalid(self):
+        res = write_file("calculator", "/tmp/temp.txt", "this should not be allowed")
         print(res)
-
-    def test_invalid(self):
-        res = get_file_content("calculator", "/bin/cat")
-        print(res)
-
-
-
 
 
 if __name__ == "__main__":

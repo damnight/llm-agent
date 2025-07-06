@@ -45,5 +45,21 @@ def get_file_content(working_directory, file_path):
     except Exception as e:
         print(f"Error: unkown error: {e}")
 
+def write_file(working_directory, file_path, content):
+    path = os.path.join(working_directory, file_path)
+    abs_wd = os.path.abspath(working_directory)
+    abs_path = os.path.abspath(path)
+    if not abs_path.startswith(abs_wd):
+        return f'Error: Cannot read "{file_path}" as it is outside the permitted working directory'
+    
+    try:
+        with open(abs_path, "w") as f:
+            f.write(content)
+            return f"Successfully wrote to file \"{abs_path}\" ({len(content)} characters written)"
 
-
+    except FileNotFoundError as e:
+        print(f"Error: FileNotFoundError: {e}")
+    except IOError as e:
+        print(f"Error: IOError: {e}")
+    except Exception as e:
+        print(f"Error: unkown error: {e}")
